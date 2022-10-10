@@ -2,8 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using StriveAPI;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<StriveDb>(options => options.UseInMemoryDatabase("ggstrive"));
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+builder.Services.AddDbContext<StriveDb>(options =>
+    options.UseNpgsql("Database=ggstrive;Username=chris"));
 var app = builder.Build();
 
 app.MapGet("/", async (StriveDb db) =>
@@ -13,7 +13,7 @@ app.MapGet("/", async (StriveDb db) =>
 
 app.MapGet("/{id}", async (int id, StriveDb db) =>
 {
-    await (db.Moves.FindAsync(id) is Move move ? Results.Ok(move) : Results.NotFound());
+    // await (db.Moves.FindAsync(id) is Move move ? Results.Ok(move) : Results.NotFound());
 });
 
 app.Run();
