@@ -1,8 +1,9 @@
-using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using StriveAPI.Contexts;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddControllers(options => options.ReturnHttpNotAcceptable = true);
 
 // Add Postgres
 builder.Services.AddDbContext<StriveDb>(options =>

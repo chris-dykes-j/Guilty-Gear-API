@@ -13,7 +13,7 @@ public class CharacterRepository
         _context = context ?? throw new ArgumentNullException(nameof(context));
     }
     
-    public async Task<List<Character?>> GetAllCharactersAsync()
+    public async Task<List<Character>> GetAllCharactersAsync()
     {
         return await _context.Characters.OrderBy(character => character!.Id).ToListAsync();
     }
