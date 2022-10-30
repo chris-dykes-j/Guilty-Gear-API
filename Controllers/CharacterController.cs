@@ -1,5 +1,6 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using StriveAPI.Entities;
 using StriveAPI.Models;
 using StriveAPI.Services;
 
@@ -19,15 +20,17 @@ public class CharacterController : ControllerBase
     }
     
     [HttpGet]
-    public IEnumerable<CharacterNoMovesDto> GetCharacters()
+    public async Task<ActionResult<IEnumerable<CharacterNoMovesDto>>> GetCharacters()
     {
-        return _repository.GetCharacters();
+        var characterEntities = await _repository.GetAllCharactersAsync();
+        return Ok(_mapper.Map<IEnumerable<CharacterNoMovesDto>>(characterEntities));
     }
 
     [HttpGet]
     [Route("{id:int}")]
-    public CharacterDto GetCharacter(int id)
+    public async Task<ActionResult<CharacterDto>> GetCharacter(int id)
     {
-        return _repository.GetCharacter(id);
+        var characterEntity = await _repository.GetCharacterAsync(id);
+        return Ok(_mapper.Map<CharacterDto>(characterEntity));
     }
 }

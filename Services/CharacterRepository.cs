@@ -1,20 +1,27 @@
+using Microsoft.EntityFrameworkCore;
+using StriveAPI.Contexts;
+using StriveAPI.Entities;
 using StriveAPI.Models;
 
 namespace StriveAPI.Services;
 
 public class CharacterRepository
 {
-    public IEnumerable<CharacterNoMovesDto> GetCharacters()
+    private readonly StriveDb _context;
+    public CharacterRepository(StriveDb context)
     {
-        return new List<CharacterNoMovesDto>();
+        _context = context ?? throw new ArgumentNullException(nameof(context));
+    }
+    
+    public async Task<List<Character?>> GetAllCharactersAsync()
+    {
+        return await _context.Characters.OrderBy(character => character!.Id).ToListAsync();
     }
 
-    public CharacterDto GetCharacter(int id)
+    public async Task<Character?> GetCharacterAsync(int id)
     {
-        return new CharacterDto()
-        {
-            Id = id,
-            CharacterName = "Ramlethal",
-        };
+        return await _context.Characters
+            .Where(c => id == c!.Id)
+            .FirstOrDefaultAsync();
     }
 }
