@@ -3,17 +3,21 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StriveAPI.Entities;
 
+[Table("move_list")]
 public class Move
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    [Column("move_id")]
     public int Id { get; set; }
    
     [Required]
     [MaxLength(50)]
+    [Column("move_name")]
     public string MoveName { get; set; }
    
     [ForeignKey("CharacterId")]
+    [Column("character_id")]
     public Character? Character { get; set; }
     public int CharacterId { get; set; }
 
