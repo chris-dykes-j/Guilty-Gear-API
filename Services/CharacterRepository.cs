@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using StriveAPI.Contexts;
 using StriveAPI.Entities;
-using StriveAPI.Models;
 
 namespace StriveAPI.Services;
 
@@ -13,15 +12,26 @@ public class CharacterRepository
         _context = context ?? throw new ArgumentNullException(nameof(context));
     }
     
-    public async Task<List<Character>> GetAllCharactersAsync()
-    {
-        return await _context.Characters.OrderBy(character => character!.Id).ToListAsync();
-    }
-
-    public async Task<Character?> GetCharacterAsync(int id)
+    public async Task<IEnumerable<Character>> GetAllCharactersAsync()
     {
         return await _context.Characters
-            .Where(c => id == c!.Id)
+            .OrderBy(character => character!.Id)
+            .ToListAsync();
+    }
+
+    public async Task<Character?> GetCharacterAsync(int characterId)
+    {
+        return await _context.Characters
+            .Where(c => characterId == c!.Id)
             .FirstOrDefaultAsync();
     }
+
+    public async Task<ICollection<Move>> GetMovesForCharacterAsync(int characterId)
+    {
+        return await _context.Moves
+            .Where(m => characterId == m.CharacterId)
+            .OrderBy(m => m!.Id)
+            .ToListAsync();
+    }
+    
 }

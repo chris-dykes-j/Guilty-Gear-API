@@ -1,6 +1,5 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using StriveAPI.Entities;
 using StriveAPI.Models;
 using StriveAPI.Services;
 
@@ -31,6 +30,15 @@ public class CharacterController : ControllerBase
     public async Task<ActionResult<CharacterDto>> GetCharacter(int id)
     {
         var characterEntity = await _repository.GetCharacterAsync(id);
+        var characterMoves = await _repository.GetMovesForCharacterAsync(id); // idk how it knows to map onto the character entity; without this line, it is empty. It must be magic.
         return Ok(_mapper.Map<CharacterDto>(characterEntity));
+    }
+
+    [HttpGet]
+    [Route("{characterId:int}/moves")]
+    public async Task<ActionResult<IEnumerable<MoveDto>>> GetMoveListNoData(int characterId)
+    {
+        var characterMoves = await _repository.GetMovesForCharacterAsync(characterId);
+        return Ok(_mapper.Map<IEnumerable<MoveDto>>(characterMoves));
     }
 }

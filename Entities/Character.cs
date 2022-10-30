@@ -16,8 +16,7 @@ public class Character
     [Column("character_name")]
     public string CharacterName { get; set; }
 
-    public ICollection<Move> Moves { get; set; }
-        = new List<Move>();
+    public ICollection<Move> MoveList { get; set; } = null!;
     
     public Character(string characterName)
     {
