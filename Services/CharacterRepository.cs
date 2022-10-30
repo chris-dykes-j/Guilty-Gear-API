@@ -4,16 +4,16 @@ namespace StriveAPI.Services;
 
 public class CharacterRepository
 {
-    public IEnumerable<CharacterDto> GetCharacters()
+    public IEnumerable<CharacterNoMovesDto> GetCharacters()
     {
-        return new List<CharacterDto>();
+        return new List<CharacterNoMovesDto>();
     }
 
     public CharacterDto GetCharacter(int id)
     {
         return new CharacterDto()
         {
-            CharacterId = id,
+            Id = id,
             CharacterName = "Ramlethal",
         };
     }

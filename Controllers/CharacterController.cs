@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using StriveAPI.Models;
 using StriveAPI.Services;
@@ -9,17 +10,21 @@ namespace StriveAPI.Controllers;
 public class CharacterController : ControllerBase 
 {
     private readonly CharacterRepository _repository;
+    private readonly IMapper _mapper;
 
-    public CharacterController(CharacterRepository repository)
+    public CharacterController(CharacterRepository repository, IMapper mapper)
     {
-        _repository = repository;
+        _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+        _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
     }
     
-    public IEnumerable<CharacterDto> GetCharacters()
+    [HttpGet]
+    public IEnumerable<CharacterNoMovesDto> GetCharacters()
     {
         return _repository.GetCharacters();
     }
 
+    [HttpGet]
     [Route("{id:int}")]
     public CharacterDto GetCharacter(int id)
     {
