@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using StriveAPI;
 using StriveAPI.Contexts;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +7,7 @@ builder.Services.AddDbContext<StriveDb>(options =>
 
 var app = builder.Build();
 
-
+app.UseRouting();
+app.UseEndpoints(e => e.MapControllers());
 
 app.Run();

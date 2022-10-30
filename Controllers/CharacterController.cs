@@ -8,21 +8,21 @@ namespace StriveAPI.Controllers;
 [ApiController]
 public class CharacterController : ControllerBase 
 {
-    private readonly CharacterService _service;
+    private readonly CharacterRepository _repository;
 
-    public CharacterController(CharacterService service)
+    public CharacterController(CharacterRepository repository)
     {
-        _service = service;
+        _repository = repository;
     }
     
-    public IEnumerable<Character> GetCharacters()
+    public IEnumerable<CharacterDto> GetCharacters()
     {
-        return _service.GetCharacters();
+        return _repository.GetCharacters();
     }
 
     [Route("{id:int}")]
-    public Character GetCharacter(int id)
+    public CharacterDto GetCharacter(int id)
     {
-        return _service.GetCharacter(id);
+        return _repository.GetCharacter(id);
     }
 }

@@ -1,10 +1,10 @@
 namespace StriveAPI.Models;
 
-public class Move
+public class MoveDto
 {
     public int MoveId { get; set; }
     public int CharacterId { get; set; }
-    public string? MoveName { get; set; }
+    public string MoveName { get; set; } = string.Empty;
     public string? Input { get; set; }
     public string? Damage { get; set; }
     public string? Guard { get; set; }
