@@ -26,11 +26,15 @@ public class CharacterController : ControllerBase
     }
 
     [HttpGet]
-    [Route("{id:int}")]
-    public async Task<ActionResult<CharacterDto>> GetCharacter(int id)
+    [Route("{characterId:int}")]
+    public async Task<ActionResult<CharacterDto>> GetCharacter(int characterId)
     {
-        var characterEntity = await _repository.GetCharacterAsync(id);
-        var characterMoves = await _repository.GetMovesForCharacterAsync(id); // idk how it knows to map onto the character entity; without this line, it is empty. It must be magic.
+        var characterEntity = await _repository.GetCharacterAsync(characterId);
+        
+        if (characterEntity == null) return NotFound();
+
+        var characterMoves = await _repository.GetMovesForCharacterAsync(characterId); // idk how it knows to map onto the character entity; without this line, it is empty. It must be magic.
+        
         return Ok(_mapper.Map<CharacterDto>(characterEntity));
     }
 
@@ -39,6 +43,9 @@ public class CharacterController : ControllerBase
     public async Task<ActionResult<IEnumerable<MoveDto>>> GetMoveListNoData(int characterId)
     {
         var characterMoves = await _repository.GetMovesForCharacterAsync(characterId);
+        
+        if (characterMoves == null) return NotFound();
+        
         return Ok(_mapper.Map<IEnumerable<MoveDto>>(characterMoves));
     }
 }
