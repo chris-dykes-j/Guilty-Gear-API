@@ -8,5 +8,6 @@ public class MoveProfile : Profile
     {
         CreateMap<Entities.Move, Models.MoveDto>();
         CreateMap<Entities.Move, Models.MoveNoDataDto>();
+        CreateMap<Entities.Move, Models.MoveWithCharacterNameDto>();
     }
 }
