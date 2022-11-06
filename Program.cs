@@ -8,7 +8,7 @@ builder.Services.AddControllers(options => options.ReturnHttpNotAcceptable = tru
 
 // Add Postgres
 builder.Services.AddDbContext<StriveDb>(options =>
-    options.UseNpgsql("Server=localhost;Database=ggstrive;Port=5432;Username=chris"));
+    options.UseNpgsql(Environment.GetEnvironmentVariable("GG_STRIVE_DB")));
 
 // Add the automapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
