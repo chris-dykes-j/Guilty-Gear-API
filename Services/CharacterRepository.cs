@@ -76,12 +76,39 @@ public class CharacterRepository
     }
 
     // Not ideal, as it's breaking the pattern from before, but it works just fine.
-    public async Task<IEnumerable<MoveWithCharacterName>?> GetMovesByInput(string moveName)
+    public async Task<IEnumerable<MoveWithCharacterName>?> GetMovesByName(string moveName)
     {
+        string move = moveName.Replace(" ", "_");
         var moveList =
             from moves in _context.Moves
             join characters in _context.Characters on moves.CharacterId equals characters.Id
-            where moveName.ToUpper() == moves.MoveName.ToUpper()
+            where move.ToUpper() == moves.MoveName.ToUpper()
+            select new MoveWithCharacterName()
+            {
+                Id = moves.Id,
+                CharacterName = characters.CharacterName,
+                MoveName = moves.MoveName,
+                Input = moves.Input,
+                Damage = moves.Damage,
+                Guard = moves.Guard,
+                Startup = moves.Startup,
+                Active = moves.Active,
+                Recovery = moves.Recovery,
+                Block = moves.Block,
+                Invulnerability = moves.Invulnerability,
+            };
+
+        var result = await moveList.ToListAsync();
+        return result;
+    }
+    
+    public async Task<IEnumerable<MoveWithCharacterName>?> GetMovesByInput(string moveInput)
+    {
+        string move = moveInput.ToUpper();
+        var moveList =
+            from moves in _context.Moves
+            join characters in _context.Characters on moves.CharacterId equals characters.Id
+            where move == moves.Input
             select new MoveWithCharacterName()
             {
                 Id = moves.Id,
