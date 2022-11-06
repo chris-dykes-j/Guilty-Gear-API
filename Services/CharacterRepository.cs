@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using StriveAPI.Contexts;
 using StriveAPI.Entities;
+using StriveAPI.Models;
 
 namespace StriveAPI.Services;
 
@@ -29,10 +30,11 @@ public class CharacterRepository
     public async Task<Character?> GetCharacterByNameAsync(string characterName)
     {
         return await _context.Characters
-            .Where(c => characterName == c.CharacterName) 
+            // ToUpper() actually works since it's an SQL query. Throws a fit if you use String.Equals()
+            .Where(c => characterName.ToUpper() == c.CharacterName.ToUpper()) 
             .FirstOrDefaultAsync();
     }
-    public async Task<ICollection<Move>> GetMovesForCharacterAsync(int characterId)
+    public async Task<IEnumerable<Move>> GetMovesForCharacterAsync(int characterId)
     {
         return await _context.Moves
             .Where(m => characterId == m.CharacterId)
@@ -41,10 +43,10 @@ public class CharacterRepository
     }
 
     // Overloaded methods
-    public async Task<ICollection<Move>> GetMovesForCharacterAsync(string characterName)
+    public async Task<IEnumerable<Move>> GetMovesForCharacterAsync(string characterName)
     {
         var characterId = _context.Characters
-            .Where(c => characterName == c.CharacterName)
+            .Where(c => characterName.ToUpper() == c.CharacterName.ToUpper())
             .Select(c => c.Id)
             .FirstOrDefaultAsync();
         
@@ -57,45 +59,54 @@ public class CharacterRepository
     public async Task<Move?> GetMoveDataForCharacterAsync(int characterId, string moveName)
     {
         return await _context.Moves
-            .Where(m => moveName == m.MoveName && m.CharacterId == characterId)
+            .Where(m => moveName.ToUpper() == m.MoveName.ToUpper() && m.CharacterId == characterId)
             .FirstOrDefaultAsync();
     }
     
     public async Task<Move?> GetMoveDataForCharacterAsync(string characterName, string moveName)
     {
         var characterId = _context.Characters
-            .Where(c => characterName == c.CharacterName)
+            .Where(c => characterName.ToUpper() == c.CharacterName.ToUpper())
             .Select(c => c.Id)
             .FirstOrDefaultAsync();
         
         return await _context.Moves
-            .Where(m => moveName == m.MoveName && m.CharacterId == characterId.Result)
+            .Where(m => moveName.ToUpper() == m.MoveName.ToUpper() && m.CharacterId == characterId.Result)
             .FirstOrDefaultAsync();
     }
 
-    // For now it's fine
-    public async Task<List<Move>> GetMovesByInput(string moveName)
-    {
-        return await _context.Moves
-            .Where(m => moveName == m.MoveName)
-            .ToListAsync();
-    }
-
-    /*
-    public Task<List<(Move, Character)>?> GetMovesByInput(string moveName)
+    // Not ideal, as it's breaking the pattern from before, but it works just fine.
+    public async Task<IEnumerable<MoveWithCharacterName>?> GetMovesByInput(string moveName)
     {
         var moveList =
             from moves in _context.Moves
             join characters in _context.Characters on moves.CharacterId equals characters.Id
-            where moveName == moves.MoveName
-            select new
+            where moveName.ToUpper() == moves.MoveName.ToUpper()
+            select new MoveWithCharacterName()
             {
-                Move = moves,
-                Character = characters,
+                Id = moves.Id,
+                CharacterName = characters.CharacterName,
+                MoveName = moves.MoveName,
+                Input = moves.Input,
+                Damage = moves.Damage,
+                Guard = moves.Guard,
+                Startup = moves.Startup,
+                Active = moves.Active,
+                Recovery = moves.Recovery,
+                Block = moves.Block,
+                Invulnerability = moves.Invulnerability,
             };
 
-        var result = moveList.ToListAsync();
+        var result = await moveList.ToListAsync();
         return result;
+    }
+    
+    /* Previous temporary implementation.
+    public async Task<List<Move>?> GetMovesByInput(string moveName)
+    {
+        return await _context.Moves
+            .Where(m => moveName == m.MoveName)
+            .ToListAsync();
     }
     */
 }

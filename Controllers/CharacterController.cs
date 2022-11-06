@@ -41,7 +41,7 @@ public class CharacterController : ControllerBase
     {
         var characterEntity = await _repository.GetCharacterByNameAsync(name);
         if (characterEntity == null) NotFound();
-        var characterMoves = await _repository.GetMovesForCharacterAsync(name); // magic.
+        var characterMoves = await _repository.GetMovesForCharacterAsync(name); // more magic.
         return Ok(_mapper.Map<CharacterDto>(characterEntity));
     }
     [HttpGet]

@@ -20,10 +20,10 @@ public class MoveController : ControllerBase
     
     [HttpGet]
     [Route("{moveName}")]
-    public async Task<ActionResult<List<MoveWithCharacterNameDto>>> GetMoveByInput(string moveName)
+    public async Task<ActionResult<List<MoveWithCharacterName>>> GetMoveByInput(string moveName)
     {
         var moveData = await _repository.GetMovesByInput(moveName);
         if (moveData == null) return NotFound();
-        return Ok(_mapper.Map<IEnumerable<MoveDto>>(moveData));
+        return Ok(_mapper.Map<IEnumerable<MoveWithCharacterName>>(moveData));
     }
 }
