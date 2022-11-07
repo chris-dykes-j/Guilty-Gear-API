@@ -12,5 +12,5 @@ public class MoveWithCharacterName
     public string Active { get; set; } = string.Empty;
     public string Recovery { get; set; } = string.Empty;
     public string Block { get; set; } = string.Empty;
-    public string Invulnerability { get; set; } = string.Empty;
+    public string? Invulnerability { get; set; } = string.Empty;
 }
