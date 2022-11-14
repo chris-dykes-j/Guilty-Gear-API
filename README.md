@@ -1,5 +1,12 @@
 # Guilty Gear Strive Character Move API
 
+November 14, 2022
+
+Update Goals:
+- [ ] Update character and attack models
+- [ ] Include gatling model
+- [ ] Expand to include Xrd and Plus R
+
 Simple API for Guilty Gear Strive moves, using ASP.Net Core.
 
 Read only; just retrieves characters and their moves.
