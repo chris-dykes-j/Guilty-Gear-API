@@ -6,7 +6,7 @@ public class CharacterProfile : Profile
 {
     public CharacterProfile()
     {
-        CreateMap<Entities.Character, Models.CharacterDto>();
-        CreateMap<Entities.Character, Models.CharacterNoMovesDto>();
+        CreateMap<Entities.StriveCharacter, Models.CharacterDto>();
+        CreateMap<Entities.StriveCharacter, Models.CharacterNoMovesDto>();
     }
 }

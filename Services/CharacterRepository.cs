@@ -13,21 +13,21 @@ public class CharacterRepository
         _context = context ?? throw new ArgumentNullException(nameof(context));
     }
     
-    public async Task<IEnumerable<Character>> GetAllCharactersAsync()
+    public async Task<IEnumerable<StriveCharacter>> GetAllCharactersAsync()
     {
         return await _context.Characters
             .OrderBy(character => character.Id)
             .ToListAsync();
     }
 
-    public async Task<Character?> GetCharacterByIdAsync(int characterId)
+    public async Task<StriveCharacter?> GetCharacterByIdAsync(int characterId)
     {
         return await _context.Characters
             .Where(c => characterId == c.Id)
             .FirstOrDefaultAsync();
     }
 
-    public async Task<Character?> GetCharacterByNameAsync(string characterName)
+    public async Task<StriveCharacter?> GetCharacterByNameAsync(string characterName)
     {
         return await _context.Characters
             // ToUpper() actually works since it's an SQL query. Throws a fit if you use String.Equals()
