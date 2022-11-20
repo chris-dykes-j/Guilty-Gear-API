@@ -1,6 +1,6 @@
 namespace StriveAPI.Models;
 
-public class CharacterNoMovesDto
+public class StriveCharacterDto
 {
     public int Id { get; set; }
     public string CharacterName { get; set; } = null!;
@@ -13,5 +13,5 @@ public class CharacterNoMovesDto
     public string? UniqueMovement { get; set; }
     public string? RiscMultiplier { get; set; }
     public string? TensionGain { get; set; }
-
+    public ICollection<StriveMoveNoDataDto> MoveList { get; set; } = null!;
 }

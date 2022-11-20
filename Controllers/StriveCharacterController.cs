@@ -5,68 +5,68 @@ using StriveAPI.Services;
 
 namespace StriveAPI.Controllers;
 
-[Route("api/characters")]
+[Route("api/strive/characters")]
 [ApiController]
-public class CharacterController : ControllerBase 
+public class StriveCharacterController : ControllerBase 
 {
-    private readonly CharacterRepository _repository;
+    private readonly StriveCharacterRepository _repository;
     private readonly IMapper _mapper;
 
-    public CharacterController(CharacterRepository repository, IMapper mapper)
+    public StriveCharacterController(StriveCharacterRepository repository, IMapper mapper)
     {
         _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
     }
     
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<CharacterNoMovesDto>>> GetCharacters()
+    public async Task<ActionResult<IEnumerable<StriveCharacterNoMovesDto>>> GetCharacters()
     {
         var characterEntities = await _repository.GetAllCharactersAsync();
-        return Ok(_mapper.Map<IEnumerable<CharacterNoMovesDto>>(characterEntities));
+        return Ok(_mapper.Map<IEnumerable<StriveCharacterNoMovesDto>>(characterEntities));
     }
 
     [HttpGet]
     [Route("{id:int}")]
-    public async Task<ActionResult<CharacterDto>> GetCharacterById(int id)
+    public async Task<ActionResult<StriveCharacterDto>> GetCharacterById(int id)
     {
         var characterEntity = await _repository.GetCharacterByIdAsync(id);
         if (characterEntity == null) NotFound();
         var characterMoves = await _repository.GetMovesForCharacterAsync(id); // idk how it knows to map onto the character entity; without this line, it is empty. It must be magic.
-        return Ok(_mapper.Map<CharacterDto>(characterEntity));
+        return Ok(_mapper.Map<StriveCharacterDto>(characterEntity));
     }
 
     [HttpGet]
     [Route("{name}")]
-    public async Task<ActionResult<CharacterDto>> GetCharacterByName(string name)
+    public async Task<ActionResult<StriveCharacterDto>> GetCharacterByName(string name)
     {
         var characterEntity = await _repository.GetCharacterByNameAsync(name);
         if (characterEntity == null) NotFound();
         var characterMoves = await _repository.GetMovesForCharacterAsync(name); // more magic.
-        return Ok(_mapper.Map<CharacterDto>(characterEntity));
+        return Ok(_mapper.Map<StriveCharacterDto>(characterEntity));
     }
     [HttpGet]
     [Route("{characterId:int}/moves")]
-    public async Task<ActionResult<IEnumerable<MoveDto>>> GetMoveListNoData(int characterId)
+    public async Task<ActionResult<IEnumerable<StriveMoveDto>>> GetMoveListNoData(int characterId)
     {
         var characterMoves = await _repository.GetMovesForCharacterAsync(characterId);
-        return Ok(_mapper.Map<IEnumerable<MoveDto>>(characterMoves));
+        return Ok(_mapper.Map<IEnumerable<StriveMoveDto>>(characterMoves));
     }
 
     [HttpGet]
     [Route(template: "{characterId:int}/moves/{moveName}")]
-    public async Task<ActionResult<IEnumerable<MoveDto>>> GetMoveData(int characterId, string moveName)
+    public async Task<ActionResult<IEnumerable<StriveMoveDto>>> GetMoveData(int characterId, string moveName)
     {
         var moveData = await _repository.GetMoveDataForCharacterAsync(characterId, moveName);
         if (moveData == null) return NotFound();
-        return Ok(_mapper.Map<IEnumerable<MoveDto>>(moveData));
+        return Ok(_mapper.Map<IEnumerable<StriveMoveDto>>(moveData));
     }
     
     [HttpGet]
     [Route(template: "{characterName}/moves/{moveName}")]
-    public async Task<ActionResult<IEnumerable<MoveDto>>> GetMoveData(string characterName, string moveName)
+    public async Task<ActionResult<IEnumerable<StriveMoveDto>>> GetMoveData(string characterName, string moveName)
     {
         var moveData = await _repository.GetMoveDataForCharacterAsync(characterName, moveName);
         if (moveData == null) return NotFound();
-        return Ok(_mapper.Map<IEnumerable<MoveDto>>(moveData));
+        return Ok(_mapper.Map<IEnumerable<StriveMoveDto>>(moveData));
     }
 }

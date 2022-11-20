@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace StriveAPI.Entities;
 
 [Table("move_list")]
-public class Move
+public class StriveMove
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -51,7 +51,7 @@ public class Move
     [MaxLength(50)]
     public string? Invulnerability { get; set; }
     
-    public Move(string moveName, string input, string damage, string guard, string startup, string active,
+    public StriveMove(string moveName, string input, string damage, string guard, string startup, string active,
         string recovery, string block, string? invulnerability)
     {
         MoveName = moveName;

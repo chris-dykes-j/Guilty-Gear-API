@@ -10,13 +10,13 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: "client", policy => policy.WithOrigins("localhost:3000")));
 
 // Add Postgres
-builder.Services.AddDbContext<StriveDb>(options =>
-    options.UseNpgsql(Environment.GetEnvironmentVariable("GG_STRIVE_DB")));
+builder.Services.AddDbContext<GuiltyGearDb>(options =>
+    options.UseNpgsql(Environment.GetEnvironmentVariable("GG_DB")));
 
 // Add the automapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-builder.Services.AddScoped(typeof(CharacterRepository));
+builder.Services.AddScoped(typeof(StriveCharacterRepository));
 
 var app = builder.Build();
 

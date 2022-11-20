@@ -57,6 +57,5 @@ public class StriveCharacter
         RiscMultiplier = riscMultiplier;
         TensionGain = tensionGain;
     }
-
 }
 
