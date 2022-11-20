@@ -6,8 +6,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers(options => options.ReturnHttpNotAcceptable = true);
 
+/*
 builder.Services.AddCors(options =>
-    options.AddPolicy(name: "client", policy => policy.WithOrigins("localhost:3000")));
+    options.AddPolicy(name: "client", policy => policy.WithOrigins(Environment.GetEnvironmentVariable(""))));
+*/
 
 // Add Postgres
 builder.Services.AddDbContext<GuiltyGearDb>(options =>
@@ -21,7 +23,7 @@ builder.Services.AddScoped(typeof(StriveCharacterRepository));
 var app = builder.Build();
 
 app.UseRouting();
-app.UseCors("client");
+// app.UseCors("client");
 app.UseEndpoints(e => e.MapControllers());
 
 app.Run();

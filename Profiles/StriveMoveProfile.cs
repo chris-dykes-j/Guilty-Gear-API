@@ -2,9 +2,9 @@ using AutoMapper;
 
 namespace StriveAPI.Profiles;
 
-public class MoveProfile : Profile
+public class StriveMoveProfile : Profile
 {
-    public MoveProfile()
+    public StriveMoveProfile()
     {
         CreateMap<Entities.StriveMove, Models.StriveMoveDto>();
         CreateMap<Entities.StriveMove, Models.StriveMoveNoDataDto>();
