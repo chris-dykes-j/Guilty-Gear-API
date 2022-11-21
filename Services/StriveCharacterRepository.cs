@@ -5,7 +5,7 @@ using StriveAPI.Models;
 
 namespace StriveAPI.Services;
 
-public class StriveCharacterRepository
+public class StriveCharacterRepository : ICharacterRepository
 {
     private readonly GuiltyGearDb _context;
     public StriveCharacterRepository(GuiltyGearDb context)

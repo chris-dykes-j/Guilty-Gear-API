@@ -3,8 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StriveAPI.Entities;
 
-[Table("strive_characters")]
-public class StriveCharacter 
+[Table("xrd_characters")]
+public class XrdCharacter 
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -33,16 +33,19 @@ public class StriveCharacter
     [Column("forward_dash")]
     public string ForwardDash { get; set; }
     
+    [Column("risc_gain_rate")]
+    public string RiscGain { get; set; }
+    
+    [Column("wake_up_face_up")]
+    public string WakeFaceUp { get; set; }
+    
+    [Column("wake_up_face_down")]
+    public string WakeFaceDown { get; set; }
+    
     [Column("unique_movement")]
     public string UniqueMovement { get; set; }
     
-    [Column("risc_multiplier")]
-    public string RiscMultiplier { get; set; }
-    
-    [Column("movement_tension_gain")]
-    public string TensionGain { get; set; }
-    
-    public StriveCharacter(string characterName, string defense, string guts, string preJump, string weight, string backDash, string forwardDash, string uniqueMovement, string riscMultiplier, string tensionGain)
+    public XrdCharacter(string characterName, string defense, string guts, string preJump, string weight, string backDash, string forwardDash, string uniqueMovement, string riscMultiplier, string tensionGain, string riscGain, string wakeFaceUp, string wakeFaceDown)
     {
         CharacterName = characterName;
         Defense = defense;
@@ -51,9 +54,10 @@ public class StriveCharacter
         Weight = weight;
         BackDash = backDash;
         ForwardDash = forwardDash;
+        RiscGain = riscGain;
+        WakeFaceUp = wakeFaceUp;
+        WakeFaceDown = wakeFaceDown;
         UniqueMovement = uniqueMovement;
-        RiscMultiplier = riscMultiplier;
-        TensionGain = tensionGain;
     }
 }
 
