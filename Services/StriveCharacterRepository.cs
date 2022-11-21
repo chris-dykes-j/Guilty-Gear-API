@@ -30,7 +30,7 @@ public class StriveCharacterRepository
     public async Task<StriveCharacter?> GetCharacterByNameAsync(string characterName)
     {
         return await _context.StriveCharacters
-            // ToUpper() actually works since it's an SQL query. Throws a fit if you use String.Equals()
+            // ToUpper() works since it's an SQL query. Throws a fit if you use String.Equals()
             .Where(c => characterName.ToUpper() == c.CharacterName.ToUpper()) 
             .FirstOrDefaultAsync();
     }
@@ -127,13 +127,25 @@ public class StriveCharacterRepository
         var result = await moveList.ToListAsync();
         return result;
     }
-    
-    /* Previous temporary implementation.
-    public async Task<List<Move>?> GetMovesByInput(string moveName)
-    {
-        return await _context.Moves
-            .Where(m => moveName == m.MoveName)
-            .ToListAsync();
+
+    public async Task<bool> CharacterExists(int id)
+    { 
+        return await _context.StriveCharacters
+            .Where(c => c.Id == id)
+            .AnyAsync();
     }
-    */
+    
+    public async Task<bool> CharacterExists(string name)
+    {
+        return await _context.StriveCharacters
+            .Where(c => c.CharacterName == name)
+            .AnyAsync();
+    }
+
+    public async Task<bool> MoveExists(string name)
+    {
+        return await _context.StriveMoves
+            .Where(m => m.MoveName == name)
+            .AnyAsync();
+    }
 }

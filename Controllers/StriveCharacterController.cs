@@ -30,7 +30,8 @@ public class StriveCharacterController : ControllerBase
     public async Task<ActionResult<StriveCharacterDto>> GetCharacterById(int id)
     {
         var characterEntity = await _repository.GetCharacterByIdAsync(id);
-        if (characterEntity == null) NotFound();
+        if (!await _repository.CharacterExists(id))
+            return NotFound();
         return Ok(_mapper.Map<StriveCharacterDto>(characterEntity));
     }
 
@@ -39,24 +40,38 @@ public class StriveCharacterController : ControllerBase
     public async Task<ActionResult<StriveCharacterDto>> GetCharacterByName(string name)
     {
         var characterEntity = await _repository.GetCharacterByNameAsync(name);
-        if (characterEntity == null) NotFound();
-        var characterMoves = await _repository.GetMovesForCharacterAsync(name); // more magic.
+        if (!await _repository.CharacterExists(name))
+            return NotFound();
         return Ok(_mapper.Map<StriveCharacterDto>(characterEntity));
     }
+    
     [HttpGet]
     [Route("{characterId:int}/moves")]
     public async Task<ActionResult<IEnumerable<StriveMoveDto>>> GetMoveListNoData(int characterId)
     {
         var characterMoves = await _repository.GetMovesForCharacterAsync(characterId);
+        if (!await _repository.CharacterExists(characterId))
+            return NotFound();
         return Ok(_mapper.Map<IEnumerable<StriveMoveDto>>(characterMoves));
     }
 
+    [HttpGet]
+    [Route("{characterName}/moves")]
+    public async Task<ActionResult<IEnumerable<StriveMoveDto>>> GetMoveListNoData(string characterName)
+    {
+        var characterMoves = await _repository.GetMovesForCharacterAsync(characterName);
+        if (!await _repository.CharacterExists(characterName))
+            return NotFound();
+        return Ok(_mapper.Map<IEnumerable<StriveMoveDto>>(characterMoves));
+    }
+    
     [HttpGet]
     [Route(template: "{characterId:int}/moves/{moveName}")]
     public async Task<ActionResult<IEnumerable<StriveMoveDto>>> GetMoveData(int characterId, string moveName)
     {
         var moveData = await _repository.GetMoveDataForCharacterAsync(characterId, moveName);
-        if (moveData == null) return NotFound();
+        if (!await _repository.MoveExists(moveName) || !await _repository.CharacterExists(characterId))
+            return NotFound();
         return Ok(_mapper.Map<IEnumerable<StriveMoveDto>>(moveData));
     }
     
@@ -65,7 +80,8 @@ public class StriveCharacterController : ControllerBase
     public async Task<ActionResult<IEnumerable<StriveMoveDto>>> GetMoveData(string characterName, string moveName)
     {
         var moveData = await _repository.GetMoveDataForCharacterAsync(characterName, moveName);
-        if (moveData == null) return NotFound();
+        if (!await _repository.MoveExists(moveName) || !await _repository.CharacterExists(characterName))
+            return NotFound();
         return Ok(_mapper.Map<IEnumerable<StriveMoveDto>>(moveData));
     }
 }

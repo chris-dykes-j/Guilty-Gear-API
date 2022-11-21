@@ -17,22 +17,33 @@ public class StriveMoveController : ControllerBase
         _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
     }
-    
+
+    /* Another to think about.
+    [HttpGet]
+    public async Task<ActionResult<List<StriveMoveCharacterNameDto>>> GetMoves()
+    {
+        return await _repository.GetMovesAsync();
+    } */
+
     [HttpGet]
     [Route("{moveName}")]
     public async Task<ActionResult<List<StriveMoveCharacterNameDto>>> GetMovesByName(string moveName)
     {
         var moveData = await _repository.GetMovesByName(moveName);
-        if (moveData == null) return NotFound();
+        if (!await _repository.MoveExists(moveName))
+            return NotFound();
         return Ok(_mapper.Map<IEnumerable<StriveMoveCharacterNameDto>>(moveData));
     }
+
     
+    // Revisit for 404, and just rethink the entire method
     [HttpGet]
     [Route("inputs/{moveInput}")]
     public async Task<ActionResult<List<StriveMoveCharacterNameDto>>> GetMovesByInput(string moveInput)
     {
         var moveData = await _repository.GetMovesByInput(moveInput);
-        if (moveData == null) return NotFound();
+        // if (!await _repository.MoveExists(moveName))
+        //     return NotFound();
         return Ok(_mapper.Map<IEnumerable<StriveMoveCharacterNameDto>>(moveData));
     }
 
