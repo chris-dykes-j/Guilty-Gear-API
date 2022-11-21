@@ -19,10 +19,10 @@ public class StriveCharacterController : ControllerBase
     }
     
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<StriveCharacterNoMovesDto>>> GetCharacters()
+    public async Task<ActionResult<IEnumerable<StriveCharacterDto>>> GetCharacters()
     {
         var characterEntities = await _repository.GetAllCharactersAsync();
-        return Ok(_mapper.Map<IEnumerable<StriveCharacterNoMovesDto>>(characterEntities));
+        return Ok(_mapper.Map<IEnumerable<StriveCharacterDto>>(characterEntities));
     }
 
     [HttpGet]
@@ -31,7 +31,6 @@ public class StriveCharacterController : ControllerBase
     {
         var characterEntity = await _repository.GetCharacterByIdAsync(id);
         if (characterEntity == null) NotFound();
-        var characterMoves = await _repository.GetMovesForCharacterAsync(id); // idk how it knows to map onto the character entity; without this line, it is empty. It must be magic.
         return Ok(_mapper.Map<StriveCharacterDto>(characterEntity));
     }
 

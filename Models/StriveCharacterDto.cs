@@ -13,5 +13,4 @@ public class StriveCharacterDto
     public string? UniqueMovement { get; set; }
     public string? RiscMultiplier { get; set; }
     public string? TensionGain { get; set; }
-    public ICollection<StriveMoveNoDataDto> MoveList { get; set; } = null!;
 }

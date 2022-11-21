@@ -8,7 +8,7 @@ public class StriveMove
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    [Column("move_id")]
+    [Column("id")]
     public int Id { get; set; }
    
     [Required]
