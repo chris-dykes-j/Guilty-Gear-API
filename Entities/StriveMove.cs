@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StriveAPI.Entities;
 
-[Table("move_list")]
+[Table("strive_move_list")]
 public class StriveMove
 {
     [Key]

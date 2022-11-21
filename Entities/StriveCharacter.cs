@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StriveAPI.Entities;
 
-[Table("characters")]
+[Table("strive_characters")]
 public class StriveCharacter 
 {
     [Key]
