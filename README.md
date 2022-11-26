@@ -3,7 +3,7 @@
 November 14, 2022
 
 Update Goals:
-- [ ] Update character and attack models
+- [x] Update character and attack models
 - [ ] Include gatling model
 - [ ] Expand to include Xrd and Plus R
 
