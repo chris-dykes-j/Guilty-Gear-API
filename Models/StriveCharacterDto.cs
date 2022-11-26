@@ -1,6 +1,6 @@
 namespace StriveAPI.Models;
 
-public class StriveCharacterDto
+public class StriveCharacterDto : ICharacterDto
 {
     public int Id { get; set; }
     public string CharacterName { get; set; } = null!;

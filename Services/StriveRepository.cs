@@ -5,10 +5,10 @@ using StriveAPI.Models;
 
 namespace StriveAPI.Services;
 
-public class StriveCharacterRepository : ICharacterRepository
+public class StriveRepository : IGameRepository
 {
     private readonly GuiltyGearDb _context;
-    public StriveCharacterRepository(GuiltyGearDb context)
+    public StriveRepository(GuiltyGearDb context)
     {
         _context = context ?? throw new ArgumentNullException(nameof(context));
     }

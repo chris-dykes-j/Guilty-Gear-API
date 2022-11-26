@@ -3,7 +3,7 @@ using StriveAPI.Models;
 
 namespace StriveAPI.Services;
 
-public class PlusRCharacterRepository : ICharacterRepository
+public class XrdRepository : IGameRepository
 {
     public Task<IEnumerable<ICharacter>> GetAllCharactersAsync()
     {

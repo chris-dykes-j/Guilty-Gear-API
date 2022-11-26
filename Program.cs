@@ -18,7 +18,7 @@ builder.Services.AddDbContext<GuiltyGearDb>(options =>
 // Add the automapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-builder.Services.AddScoped(typeof(StriveCharacterRepository));
+builder.Services.AddScoped(typeof(StriveRepository));
 
 var app = builder.Build();
 

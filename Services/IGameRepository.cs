@@ -3,7 +3,7 @@ using StriveAPI.Models;
 
 namespace StriveAPI.Services;
 
-public interface ICharacterRepository
+public interface IGameRepository
 {
     Task<IEnumerable<ICharacter>> GetAllCharactersAsync();
     Task<ICharacter?> GetCharacterByIdAsync(int characterId);

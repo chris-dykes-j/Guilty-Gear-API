@@ -9,10 +9,10 @@ namespace StriveAPI.Controllers;
 [ApiController]
 public class StriveMoveController : ControllerBase
 {
-    private readonly StriveCharacterRepository _repository;
+    private readonly StriveRepository _repository;
     private readonly IMapper _mapper;
 
-    public StriveMoveController(StriveCharacterRepository repository, IMapper mapper)
+    public StriveMoveController(StriveRepository repository, IMapper mapper)
     {
         _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
