@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace StriveAPI.Entities;
 
 [Table("strive_characters")]
-public class StriveCharacter 
+public class StriveCharacter : ICharacter 
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

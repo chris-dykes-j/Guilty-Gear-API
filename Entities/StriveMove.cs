@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace StriveAPI.Entities;
 
 [Table("strive_move_list")]
-public class StriveMove
+public class StriveMove : IMove
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

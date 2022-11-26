@@ -5,15 +5,13 @@ namespace StriveAPI.Services;
 
 public interface ICharacterRepository
 {
-    Task<IEnumerable<StriveCharacter>> GetAllCharactersAsync();
-    Task<StriveCharacter?> GetCharacterByIdAsync(int characterId);
-    Task<StriveCharacter?> GetCharacterByNameAsync(string characterName);
-    Task<IEnumerable<StriveMove>> GetMovesForCharacterAsync(int characterId);
-    Task<IEnumerable<StriveMove>> GetMovesForCharacterAsync(string characterName);
-    Task<StriveMove?> GetMoveDataForCharacterAsync(int characterId, string moveName);
-    Task<StriveMove?> GetMoveDataForCharacterAsync(string characterName, string moveName);
-    Task<IEnumerable<StriveMoveCharacterNameDto>?> GetMovesByName(string moveName);
-    Task<IEnumerable<StriveMoveCharacterNameDto>?> GetMovesByInput(string moveInput);
+    Task<IEnumerable<ICharacter>> GetAllCharactersAsync();
+    Task<ICharacter?> GetCharacterByIdAsync(int characterId);
+    Task<ICharacter?> GetCharacterByNameAsync(string characterName);
+    Task<IEnumerable<IMove>> GetMovesForCharacterAsync(int characterId);
+    Task<IEnumerable<IMove>> GetMovesForCharacterAsync(string characterName);
+    Task<IMove?> GetMoveDataForCharacterAsync(int characterId, string moveName);
+    Task<IMove?> GetMoveDataForCharacterAsync(string characterName, string moveName);
     Task<bool> CharacterExists(int id);
     Task<bool> CharacterExists(string name);
     Task<bool> MoveExists(string name);

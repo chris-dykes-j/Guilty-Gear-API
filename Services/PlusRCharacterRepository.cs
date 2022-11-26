@@ -5,47 +5,37 @@ namespace StriveAPI.Services;
 
 public class PlusRCharacterRepository : ICharacterRepository
 {
-    public Task<IEnumerable<StriveCharacter>> GetAllCharactersAsync()
+    public Task<IEnumerable<ICharacter>> GetAllCharactersAsync()
     {
         throw new NotImplementedException();
     }
 
-    public Task<StriveCharacter?> GetCharacterByIdAsync(int characterId)
+    public Task<ICharacter?> GetCharacterByIdAsync(int characterId)
     {
         throw new NotImplementedException();
     }
 
-    public Task<StriveCharacter?> GetCharacterByNameAsync(string characterName)
+    public Task<ICharacter?> GetCharacterByNameAsync(string characterName)
     {
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<StriveMove>> GetMovesForCharacterAsync(int characterId)
+    public Task<IEnumerable<IMove>> GetMovesForCharacterAsync(int characterId)
     {
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<StriveMove>> GetMovesForCharacterAsync(string characterName)
+    public Task<IEnumerable<IMove>> GetMovesForCharacterAsync(string characterName)
     {
         throw new NotImplementedException();
     }
 
-    public Task<StriveMove?> GetMoveDataForCharacterAsync(int characterId, string moveName)
+    public Task<IMove?> GetMoveDataForCharacterAsync(int characterId, string moveName)
     {
         throw new NotImplementedException();
     }
 
-    public Task<StriveMove?> GetMoveDataForCharacterAsync(string characterName, string moveName)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<IEnumerable<StriveMoveCharacterNameDto>?> GetMovesByName(string moveName)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<IEnumerable<StriveMoveCharacterNameDto>?> GetMovesByInput(string moveInput)
+    public Task<IMove?> GetMoveDataForCharacterAsync(string characterName, string moveName)
     {
         throw new NotImplementedException();
     }
