@@ -1,6 +1,6 @@
 namespace StriveAPI.Entities;
 
-public class XrdMove : IMove
+public class XrdMove 
 {
     public int Id { get; set; }
     public string MoveName { get; set; }

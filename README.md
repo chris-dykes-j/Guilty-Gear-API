@@ -4,8 +4,8 @@ November 14, 2022
 
 Update Goals:
 - [x] Update character and attack models
+- [x] Expand to include Xrd and Plus R
 - [ ] Include gatling model
-- [ ] Expand to include Xrd and Plus R
 
 Simple API for Guilty Gear Strive moves, using ASP.Net Core.
 

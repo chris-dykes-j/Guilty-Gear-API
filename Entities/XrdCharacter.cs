@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace StriveAPI.Entities;
 
 [Table("xrd_characters")]
-public class XrdCharacter : ICharacter 
+public class XrdCharacter 
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -44,8 +44,8 @@ public class XrdCharacter : ICharacter
     
     [Column("unique_movement")]
     public string UniqueMovement { get; set; }
-    
-    public XrdCharacter(string characterName, string defense, string guts, string preJump, string weight, string backDash, string forwardDash, string uniqueMovement, string riscMultiplier, string tensionGain, string riscGain, string wakeFaceUp, string wakeFaceDown)
+
+    public XrdCharacter(string characterName, string defense, string guts, string preJump, string weight, string backDash, string forwardDash, string riscGain, string wakeFaceUp, string wakeFaceDown, string uniqueMovement)
     {
         CharacterName = characterName;
         Defense = defense;

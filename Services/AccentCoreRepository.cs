@@ -1,57 +1,97 @@
+using Microsoft.EntityFrameworkCore;
+using StriveAPI.Contexts;
 using StriveAPI.Entities;
-using StriveAPI.Models;
 
 namespace StriveAPI.Services;
 
-public class XrdRepository : IGameRepository
+public class AccentCoreRepository 
 {
-    public Task<IEnumerable<ICharacter>> GetAllCharactersAsync()
+    private readonly GuiltyGearDb _context;
+    
+    public AccentCoreRepository(GuiltyGearDb context)
     {
-        throw new NotImplementedException();
+        _context = context ?? throw new ArgumentNullException(nameof(context));
     }
 
-    public Task<ICharacter?> GetCharacterByIdAsync(int characterId)
+    public async Task<IEnumerable<AccentCoreCharacter>> GetAllCharactersAsync()
     {
-        throw new NotImplementedException();
+        return await _context.AccentCoreCharacters
+            .OrderBy(character => character.Id)
+            .ToListAsync();
+    }
+    
+    public async Task<AccentCoreCharacter?> GetCharacterByIdAsync(int characterId)
+    {
+        return await _context.AccentCoreCharacters
+            .Where(c => characterId == c.Id)
+            .FirstOrDefaultAsync();
     }
 
-    public Task<ICharacter?> GetCharacterByNameAsync(string characterName)
+    public async Task<AccentCoreCharacter?> GetCharacterByNameAsync(string characterName)
     {
-        throw new NotImplementedException();
+        return await _context.AccentCoreCharacters
+            .Where(c => characterName.ToUpper() == c.CharacterName.ToUpper()) 
+            .FirstOrDefaultAsync();
     }
 
-    public Task<IEnumerable<IMove>> GetMovesForCharacterAsync(int characterId)
+    public async Task<IEnumerable<AccentCoreMove>> GetMovesForCharacterAsync(int characterId)
     {
-        throw new NotImplementedException();
+        return await _context.AccentCoreMoves
+            .Where(m => characterId == m.CharacterId)
+            .OrderBy(m => m.Id)
+            .ToListAsync();
     }
 
-    public Task<IEnumerable<IMove>> GetMovesForCharacterAsync(string characterName)
+    public async Task<IEnumerable<AccentCoreMove>> GetMovesForCharacterAsync(string characterName)
     {
-        throw new NotImplementedException();
+        var characterId = _context.AccentCoreCharacters
+            .Where(c => characterName.ToUpper() == c.CharacterName.ToUpper())
+            .Select(c => c.Id)
+            .FirstOrDefaultAsync();
+        
+        return await _context.AccentCoreMoves
+            .Where(m => characterId.Result == m.CharacterId)
+            .OrderBy(m => m.Id)
+            .ToListAsync();
     }
 
-    public Task<IMove?> GetMoveDataForCharacterAsync(int characterId, string moveName)
+    public async Task<AccentCoreMove?> GetMoveDataForCharacterAsync(int characterId, string moveName)
     {
-        throw new NotImplementedException();
+        return await _context.AccentCoreMoves
+            .Where(m => moveName.ToUpper() == m.MoveName.ToUpper() && m.CharacterId == characterId)
+            .FirstOrDefaultAsync();
     }
 
-    public Task<IMove?> GetMoveDataForCharacterAsync(string characterName, string moveName)
+    public async Task<AccentCoreMove?> GetMoveDataForCharacterAsync(string characterName, string moveName)
     {
-        throw new NotImplementedException();
+        var characterId = _context.AccentCoreCharacters
+            .Where(c => characterName.ToUpper() == c.CharacterName.ToUpper())
+            .Select(c => c.Id)
+            .FirstOrDefaultAsync();
+        
+        return await _context.AccentCoreMoves
+            .Where(m => moveName.ToUpper() == m.MoveName.ToUpper() && m.CharacterId == characterId.Result)
+            .FirstOrDefaultAsync();
     }
 
-    public Task<bool> CharacterExists(int id)
+    public async Task<bool> CharacterExists(int id)
     {
-        throw new NotImplementedException();
+        return await _context.AccentCoreCharacters
+            .Where(c => c.Id == id)
+            .AnyAsync();
     }
 
-    public Task<bool> CharacterExists(string name)
+    public async Task<bool> CharacterExists(string name)
     {
-        throw new NotImplementedException();
+        return await _context.AccentCoreCharacters
+            .Where(c => c.CharacterName.ToUpper() == name.ToUpper())
+            .AnyAsync();
     }
 
-    public Task<bool> MoveExists(string name)
+    public async Task<bool> MoveExists(string name)
     {
-        throw new NotImplementedException();
+        return await _context.AccentCoreMoves
+            .Where(m => m.MoveName.ToUpper() == name.ToUpper())
+            .AnyAsync();
     }
 }

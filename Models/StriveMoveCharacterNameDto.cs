@@ -1,6 +1,6 @@
 namespace StriveAPI.Models;
 
-public class StriveMoveCharacterNameDto : ICharacterDto
+public class StriveMoveCharacterNameDto 
 {
     public int Id { get; set; }
     public string CharacterName { get; set; } = null!;

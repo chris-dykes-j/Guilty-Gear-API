@@ -6,11 +6,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers(options => options.ReturnHttpNotAcceptable = true);
 
-/*
-builder.Services.AddCors(options =>
-    options.AddPolicy(name: "client", policy => policy.WithOrigins(Environment.GetEnvironmentVariable(""))));
-*/
-
 // Add Postgres
 builder.Services.AddDbContext<GuiltyGearDb>(options =>
     options.UseNpgsql(Environment.GetEnvironmentVariable("GG_DB")));
@@ -19,11 +14,12 @@ builder.Services.AddDbContext<GuiltyGearDb>(options =>
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddScoped(typeof(StriveRepository));
+builder.Services.AddScoped(typeof(XrdRepository));
+builder.Services.AddScoped(typeof(AccentCoreRepository));
 
 var app = builder.Build();
 
 app.UseRouting();
-// app.UseCors("client");
 app.UseEndpoints(e => e.MapControllers());
 
 app.Run();

@@ -1,6 +1,6 @@
 namespace StriveAPI.Models;
 
-public class StriveMoveDto : IMoveDto
+public class StriveMoveDto
 {
     public int Id { get; set; }
     public string MoveName { get; set; } = string.Empty;

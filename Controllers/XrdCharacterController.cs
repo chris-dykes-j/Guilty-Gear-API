@@ -7,7 +7,7 @@ namespace StriveAPI.Controllers;
 
 [Route("api/xrd/characters")]
 [ApiController]
-public class XrdCharacterController : ControllerBase, ICharacterController
+public class XrdCharacterController : ControllerBase
 {
     private readonly XrdRepository _repository;
     private readonly IMapper _mapper;
@@ -19,14 +19,15 @@ public class XrdCharacterController : ControllerBase, ICharacterController
     }
     
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ICharacterDto>>> GetCharacters()
+    public async Task<ActionResult<IEnumerable<XrdCharacterDto>>> GetCharacters()
     {
         var characterEntities = await _repository.GetAllCharactersAsync();
         return Ok(_mapper.Map<IEnumerable<XrdCharacterDto>>(characterEntities));
     }
 
     [HttpGet]
-    public async Task<ActionResult<ICharacterDto>> GetCharacterById(int id)
+    [Route("{id:int}")]
+    public async Task<ActionResult<XrdCharacterDto>> GetCharacterById(int id)
     {
         var characterEntity = await _repository.GetCharacterByIdAsync(id);
         if (!await _repository.CharacterExists(id))
@@ -35,32 +36,52 @@ public class XrdCharacterController : ControllerBase, ICharacterController
     }
 
     [HttpGet]
-    public Task<ActionResult<ICharacterDto>> GetCharacterByName(string name)
+    [Route("{name}")]
+    public async Task<ActionResult<XrdCharacterDto>> GetCharacterByName(string name)
     {
-        throw new InvalidOperationException();
+        var characterEntity = await _repository.GetCharacterByNameAsync(name);
+        if (!await _repository.CharacterExists(name))
+            return NotFound();
+        return Ok(_mapper.Map<XrdCharacterDto>(characterEntity));
     }
 
     [HttpGet]
-    public Task<ActionResult<IEnumerable<IMoveDto>>> GetMoveListNoData(int characterId)
+    [Route("{characterId:int}/moves")]
+    public async Task<ActionResult<IEnumerable<XrdMoveDto>>> GetMoveListNoData(int characterId)
     {
-        throw new InvalidOperationException();
+        var characterMoves = await _repository.GetMovesForCharacterAsync(characterId);
+        if (!await _repository.CharacterExists(characterId))
+            return NotFound();
+        return Ok(_mapper.Map<IEnumerable<XrdMoveDto>>(characterMoves));
     }
 
     [HttpGet]
-    public Task<ActionResult<IEnumerable<IMoveDto>>> GetMoveListNoData(string characterName)
+    [Route("{characterName}/moves")]
+    public async Task<ActionResult<IEnumerable<XrdMoveDto>>> GetMoveListNoData(string characterName)
     {
-        throw new InvalidOperationException();
+        var characterMoves = await _repository.GetMovesForCharacterAsync(characterName);
+        if (!await _repository.CharacterExists(characterName))
+            return NotFound();
+        return Ok(_mapper.Map<IEnumerable<XrdMoveDto>>(characterMoves));
     }
 
     [HttpGet]
-    public Task<ActionResult<IEnumerable<IMoveDto>>> GetMoveData(int characterId, string moveName)
+    [Route(template: "{characterId:int}/moves/{moveName}")]
+    public async Task<ActionResult<IEnumerable<XrdMoveDto>>> GetMoveData(int characterId, string moveName)
     {
-        throw new InvalidOperationException();
+        var moveData = await _repository.GetMoveDataForCharacterAsync(characterId, moveName);
+        if (!await _repository.MoveExists(moveName) || !await _repository.CharacterExists(characterId))
+            return NotFound();
+        return Ok(_mapper.Map<IEnumerable<XrdMoveDto>>(moveData));
     }
 
     [HttpGet]
-    public Task<ActionResult<IEnumerable<IMoveDto>>> GetMoveData(string characterName, string moveName)
+    [Route(template: "{characterName}/moves/{moveName}")]
+    public async Task<ActionResult<IEnumerable<XrdMoveDto>>> GetMoveData(string characterName, string moveName)
     {
-        throw new InvalidOperationException();
+        var moveData = await _repository.GetMoveDataForCharacterAsync(characterName, moveName);
+        if (!await _repository.MoveExists(moveName) || !await _repository.CharacterExists(characterName))
+            return NotFound();
+        return Ok(_mapper.Map<IEnumerable<AccentCoreMoveDto>>(moveData));
     }
 }

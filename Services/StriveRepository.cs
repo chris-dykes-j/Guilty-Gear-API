@@ -5,36 +5,37 @@ using StriveAPI.Models;
 
 namespace StriveAPI.Services;
 
-public class StriveRepository : IGameRepository
+public class StriveRepository 
 {
     private readonly GuiltyGearDb _context;
+    
     public StriveRepository(GuiltyGearDb context)
     {
         _context = context ?? throw new ArgumentNullException(nameof(context));
     }
     
-    public async Task<IEnumerable<ICharacter>> GetAllCharactersAsync()
+    public async Task<IEnumerable<StriveCharacter>> GetAllCharactersAsync()
     {
         return await _context.StriveCharacters
             .OrderBy(character => character.Id)
             .ToListAsync();
     }
 
-    public async Task<ICharacter?> GetCharacterByIdAsync(int characterId)
+    public async Task<StriveCharacter?> GetCharacterByIdAsync(int characterId)
     {
         return await _context.StriveCharacters
             .Where(c => characterId == c.Id)
             .FirstOrDefaultAsync();
     }
 
-    public async Task<ICharacter?> GetCharacterByNameAsync(string characterName)
+    public async Task<StriveCharacter?> GetCharacterByNameAsync(string characterName)
     {
         return await _context.StriveCharacters
             // ToUpper() works since it's an SQL query. Throws a fit if you use String.Equals()
             .Where(c => characterName.ToUpper() == c.CharacterName.ToUpper()) 
             .FirstOrDefaultAsync();
     }
-    public async Task<IEnumerable<IMove>> GetMovesForCharacterAsync(int characterId)
+    public async Task<IEnumerable<StriveMove>> GetMovesForCharacterAsync(int characterId)
     {
         return await _context.StriveMoves
             .Where(m => characterId == m.CharacterId)
@@ -43,7 +44,7 @@ public class StriveRepository : IGameRepository
     }
 
     // Overloaded methods
-    public async Task<IEnumerable<IMove>> GetMovesForCharacterAsync(string characterName)
+    public async Task<IEnumerable<StriveMove>> GetMovesForCharacterAsync(string characterName)
     {
         var characterId = _context.StriveCharacters
             .Where(c => characterName.ToUpper() == c.CharacterName.ToUpper())
@@ -56,14 +57,14 @@ public class StriveRepository : IGameRepository
             .ToListAsync();
     }
     
-    public async Task<IMove?> GetMoveDataForCharacterAsync(int characterId, string moveName)
+    public async Task<StriveMove?> GetMoveDataForCharacterAsync(int characterId, string moveName)
     {
         return await _context.StriveMoves
             .Where(m => moveName.ToUpper() == m.MoveName.ToUpper() && m.CharacterId == characterId)
             .FirstOrDefaultAsync();
     }
     
-    public async Task<IMove?> GetMoveDataForCharacterAsync(string characterName, string moveName)
+    public async Task<StriveMove?> GetMoveDataForCharacterAsync(string characterName, string moveName)
     {
         var characterId = _context.StriveCharacters
             .Where(c => characterName.ToUpper() == c.CharacterName.ToUpper())

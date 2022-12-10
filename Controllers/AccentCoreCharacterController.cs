@@ -5,83 +5,83 @@ using StriveAPI.Services;
 
 namespace StriveAPI.Controllers;
 
-[Route("api/strive/characters")]
+[Route("api/plusr/characters")]
 [ApiController]
-public class StriveCharacterController : ControllerBase 
+public class AccentCoreCharacterController : ControllerBase
 {
-    private readonly StriveRepository _repository;
+    private readonly AccentCoreRepository _repository;
     private readonly IMapper _mapper;
 
-    public StriveCharacterController(StriveRepository repository, IMapper mapper)
+    public AccentCoreCharacterController(AccentCoreRepository repository, IMapper mapper)
     {
         _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
     }
     
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<StriveCharacterDto>>> GetCharacters()
+    public async Task<ActionResult<IEnumerable<AccentCoreCharacterDto>>> GetCharacters()
     {
         var characterEntities = await _repository.GetAllCharactersAsync();
-        return Ok(_mapper.Map<IEnumerable<StriveCharacterDto>>(characterEntities));
+        return Ok(_mapper.Map<IEnumerable<AccentCoreCharacterDto>>(characterEntities));
     }
 
     [HttpGet]
     [Route("{id:int}")]
-    public async Task<ActionResult<StriveCharacterDto>> GetCharacterById(int id)
+    public async Task<ActionResult<AccentCoreCharacterDto>> GetCharacterById(int id)
     {
         var characterEntity = await _repository.GetCharacterByIdAsync(id);
         if (!await _repository.CharacterExists(id))
             return NotFound();
-        return Ok(_mapper.Map<StriveCharacterDto>(characterEntity));
+        return Ok(_mapper.Map<AccentCoreCharacterDto>(characterEntity));
     }
 
     [HttpGet]
     [Route("{name}")]
-    public async Task<ActionResult<StriveCharacterDto>> GetCharacterByName(string name)
+    public async Task<ActionResult<AccentCoreCharacterDto>> GetCharacterByName(string name)
     {
         var characterEntity = await _repository.GetCharacterByNameAsync(name);
         if (!await _repository.CharacterExists(name))
             return NotFound();
-        return Ok(_mapper.Map<StriveCharacterDto>(characterEntity));
+        return Ok(_mapper.Map<AccentCoreCharacterDto>(characterEntity));
     }
-    
+
     [HttpGet]
     [Route("{characterId:int}/moves")]
-    public async Task<ActionResult<IEnumerable<StriveMoveDto>>> GetMoveListNoData(int characterId)
+    public async Task<ActionResult<IEnumerable<AccentCoreMoveDto>>> GetMoveListNoData(int characterId)
     {
         var characterMoves = await _repository.GetMovesForCharacterAsync(characterId);
         if (!await _repository.CharacterExists(characterId))
             return NotFound();
-        return Ok(_mapper.Map<IEnumerable<StriveMoveDto>>(characterMoves));
+        return Ok(_mapper.Map<IEnumerable<AccentCoreMoveDto>>(characterMoves));
     }
 
     [HttpGet]
     [Route("{characterName}/moves")]
-    public async Task<ActionResult<IEnumerable<StriveMoveDto>>> GetMoveListNoData(string characterName)
+    public async Task<ActionResult<IEnumerable<AccentCoreMoveDto>>> GetMoveListNoData(string characterName)
     {
         var characterMoves = await _repository.GetMovesForCharacterAsync(characterName);
         if (!await _repository.CharacterExists(characterName))
             return NotFound();
-        return Ok(_mapper.Map<IEnumerable<StriveMoveDto>>(characterMoves));
+        return Ok(_mapper.Map<IEnumerable<AccentCoreMoveDto>>(characterMoves));
     }
-    
+
     [HttpGet]
     [Route(template: "{characterId:int}/moves/{moveName}")]
-    public async Task<ActionResult<IEnumerable<StriveMoveDto>>> GetMoveData(int characterId, string moveName)
+    public async Task<ActionResult<IEnumerable<AccentCoreMoveDto>>> GetMoveData(int characterId, string moveName)
     {
         var moveData = await _repository.GetMoveDataForCharacterAsync(characterId, moveName);
         if (!await _repository.MoveExists(moveName) || !await _repository.CharacterExists(characterId))
             return NotFound();
-        return Ok(_mapper.Map<IEnumerable<StriveMoveDto>>(moveData));
+        return Ok(_mapper.Map<IEnumerable<AccentCoreMoveDto>>(moveData));
     }
-    
+
     [HttpGet]
     [Route(template: "{characterName}/moves/{moveName}")]
-    public async Task<ActionResult<IEnumerable<StriveMoveDto>>> GetMoveData(string characterName, string moveName)
+    public async Task<ActionResult<IEnumerable<AccentCoreMoveDto>>> GetMoveData(string characterName, string moveName)
     {
         var moveData = await _repository.GetMoveDataForCharacterAsync(characterName, moveName);
         if (!await _repository.MoveExists(moveName) || !await _repository.CharacterExists(characterName))
             return NotFound();
-        return Ok(_mapper.Map<IEnumerable<StriveMoveDto>>(moveData));
+        return Ok(_mapper.Map<IEnumerable<AccentCoreMoveDto>>(moveData));
     }
 }

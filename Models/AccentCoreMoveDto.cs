@@ -1,8 +1,10 @@
+using StriveAPI.Entities;
+
 namespace StriveAPI.Models;
 
-public interface IMoveDto
+public class AccentCoreMoveDto 
 {
     public int Id { get; set; }
     public string MoveName { get; set; }
-    public string Input { get; set; }
+    public int CharacterId { get; set; }
 }

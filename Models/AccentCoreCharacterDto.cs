@@ -1,6 +1,6 @@
 namespace StriveAPI.Models;
 
-public class XrdCharacterDto
+public class AccentCoreCharacterDto 
 {
     public int Id { get; set; }
     public string CharacterName { get; set; } = null!;
